@@ -6,7 +6,8 @@ import { useState, useEffect } from "react";
 
 export function Content() {
   const [players, setPlayers] = useState([]);
-  const [setIsPlayerShowVisible, setIsPlayerShowVisible] 
+  const [isPlayerShowVisible, setIsPlayerShowVisible] = useState(false);
+  const [currentPlayer,setCurrentPlayer] = useState({});
 
   const handleIndexPlayers = () => {
     console.log("handleIndexPlayers");
@@ -22,14 +23,18 @@ export function Content() {
     setCurrentPlayer(player);
   };
 
+  const handleClose = () => {
+    console.log("handleClose");
+    setIsPlayerShowVisible(false);
+  }
+
   useEffect(handleIndexPlayers, []);
   
   return (
     <div>
       <PlayersIndex players={players} onShowPlayer={handleShowPlayer}/>
-      <PlayersShow player={currentPlayer} />
-      <Modal show={setIsPlayerShowVisible} onClose={handleClose}>
-        <h1>test</h1>
+      <Modal show={isPlayerShowVisible} onClose={handleClose}>
+       <PlayersShow player={currentPlayer} />
       </Modal>
     </div>
   );
