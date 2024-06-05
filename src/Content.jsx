@@ -1,5 +1,6 @@
 import { PlayersIndex } from "./PlayersIndex";
 import { PlayersShow } from "./PlayersShow";
+import { PlayersNew } from "./PlayersNew";
 import { Modal } from "./Modal";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -17,6 +18,14 @@ export function Content() {
     });
   };  
 
+  const handleCreatePlayer = (params, successCallback) => {
+    console.log("handleCreatePhoto", params);
+    axios.post("http://localhost:3000/players.json", params).then((response) => {
+      setPlayers([...players, response.data]);
+      successCallback();
+    });
+  }
+
   const handleShowPlayer = (player) => {
     console.log("handleShowPlayer", player);
     setIsPlayerShowVisible(true);
@@ -32,9 +41,10 @@ export function Content() {
   
   return (
     <div>
+      <PlayersNew onCreatePlayer={handleCreatePlayer}/>
       <PlayersIndex players={players} onShowPlayer={handleShowPlayer}/>
       <Modal show={isPlayerShowVisible} onClose={handleClose}>
-       <PlayersShow player={currentPlayer} />
+       <PlayersShow player={currentPlayer}/>
       </Modal>
     </div>
   );
