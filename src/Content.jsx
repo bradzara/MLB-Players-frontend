@@ -26,6 +26,23 @@ export function Content() {
     });
   }
 
+  const handleUpdatePlayer = (id, params, successCallback) => {
+    console.log("Player updated", params);
+    axios.patch(`http://localhost:3000/players/${id}.json`, params).then((response) => {
+      setPlayers(
+        players.map((player) => {
+          if (player.id === response.data.id) {
+            return response.data;
+          } else {
+            return player;
+          }
+        })
+      );
+      successCallback();
+      handleClose();
+    });
+  }
+
   const handleShowPlayer = (player) => {
     console.log("handleShowPlayer", player);
     setIsPlayerShowVisible(true);
@@ -44,7 +61,7 @@ export function Content() {
       <PlayersNew onCreatePlayer={handleCreatePlayer}/>
       <PlayersIndex players={players} onShowPlayer={handleShowPlayer}/>
       <Modal show={isPlayerShowVisible} onClose={handleClose}>
-       <PlayersShow player={currentPlayer}/>
+       <PlayersShow player={currentPlayer} onUpdatePlayer={handleUpdatePlayer}/>
       </Modal>
     </div>
   );
