@@ -49,6 +49,14 @@ export function Content() {
     setCurrentPlayer(player);
   };
 
+  const handleDestroyPlayer = (id) => {
+    console.log("handleDestroyPlayer", id);
+    axios.delete(`http://localhost:3000/players/${id}.json`, id).then((response) => {
+      setPlayers(player.filter((player) => player.id != id));
+      handleClose();
+    });
+  }
+
   const handleClose = () => {
     console.log("handleClose");
     setIsPlayerShowVisible(false);
@@ -61,7 +69,7 @@ export function Content() {
       <PlayersNew onCreatePlayer={handleCreatePlayer}/>
       <PlayersIndex players={players} onShowPlayer={handleShowPlayer}/>
       <Modal show={isPlayerShowVisible} onClose={handleClose}>
-       <PlayersShow player={currentPlayer} onUpdatePlayer={handleUpdatePlayer}/>
+       <PlayersShow player={currentPlayer} onUpdatePlayer={handleUpdatePlayer} onDestroyPlayer={handleDestroyPlayer}/>
       </Modal>
     </div>
   );

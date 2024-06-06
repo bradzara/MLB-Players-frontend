@@ -4,6 +4,10 @@ export function PlayersShow(props) {
     const params = new FormData(event.target);
     props.onUpdatePlayer(props.player.id, params, () => event.target.reset());
   }
+
+  const handleClick = (event) => {
+    props.onDestroyPlayer(props.player.id);
+  }
   
   return (
     <div>
@@ -20,6 +24,7 @@ export function PlayersShow(props) {
         <div>Number: <input type = "text" name ="number" defaultValue={props.player.number}/></div>
         <div>Image: <input type = "text" name ="image_url" defaultValue={props.player.image_url}/></div>
         <button type="submit">Update player</button>
+        <button onClick={handleClick}>Delete Player</button>
       </form>
     </div>
   );
